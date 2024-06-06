@@ -1,4 +1,8 @@
-## Hi there 👋
+# 펀핏(Funfit) 프로젝트
+
+## Architecture
+
+
 
 <!--
 
