@@ -1,5 +1,9 @@
 # 펀핏(Funfit) 프로젝트
-펀핏은 운동 관련 커뮤니티와 PT 수업 예약 및 관리 서비스를 제공합니다.
+## 프로젝트 소개
+- 펀핏은 운동 관련 커뮤니티와 PT 수업 예약 및 관리 서비스를 제공합니다.
+- 개인 프로젝트
+- 2024.04 ~ 2024.07
+
 
 ## Tech Stack
 <img src="https://img.shields.io/badge/Java-7D929E?style=plastic&logo=Java&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=plastic&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/Spring Cloud-6DB33F?style=plastic&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/JPA/Hibernate-1A1A1A?style=plastic&logo=JPA&logoColor=white">
@@ -10,9 +14,10 @@
 
 <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=plastic&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=plastic&logo=amazonec2&logoColor=white">
 
-
 ## Architecture
 ![image](https://github.com/Funfit-Project/community-service/assets/108605017/e4124db2-39ee-49ae-94b7-a3a61ec681e5)
+
+
 
 
 <!--
