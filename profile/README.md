@@ -7,9 +7,9 @@
 - 한 시간 단위로 업데이트되는 인기글 제공
 
 ## 2. Tech Stack
-<img src="https://img.shields.io/badge/Java-7D929E?style=plastic&logo=Java&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=plastic&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/Spring Cloud-6DB33F?style=plastic&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/JPA/Hibernate-1A1A1A?style=plastic&logo=JPA&logoColor=white">
+<img src="https://img.shields.io/badge/Java-7D929E?style=plastic&logo=Java&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=plastic&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/Spring Cloud-6DB33F?style=plastic&logo=spring&logoColor=white"> 
 
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=plastic&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/Redis-FF4438?style=plastic&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-47A248?style=plastic&logo=mongodb&logoColor=white">
+<img src="https://img.shields.io/badge/JPA/Hibernate-1A1A1A?style=plastic&logo=JPA&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=plastic&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/Redis-FF4438?style=plastic&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-47A248?style=plastic&logo=mongodb&logoColor=white">
 
 <img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=plastic&logo=rabbitmq&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=plastic&logo=docker&logoColor=white"> 
 
