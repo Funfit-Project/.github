@@ -1,5 +1,8 @@
 # 펀핏(Funfit) 프로젝트
+펀핏은 운동 관련 커뮤니티와 PT 수업 예약 및 관리 서비스를 제공합니다.
 
+## Tech Stack
+<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=plastic&logo=springboot&logoColor=black">
 ## Architecture
 
 
