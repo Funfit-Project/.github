@@ -56,7 +56,7 @@
 
 ## 4. Architecture
 
-![image](https://github.com/user-attachments/assets/344364d6-5995-4212-bf25-02b758d4853f)
+<p align="center"><img src="https://github.com/user-attachments/assets/344364d6-5995-4212-bf25-02b758d4853f" width="670" height="600"></p>
 
 ### MSA(Micro Service Architecture)
 
@@ -107,9 +107,8 @@
 - 그리고 좋아요 순 조회 시 게시글을 풀스캔하는 문제가 발생했다.
     - 좋아요/댓글/북마크는 게시글 엔티티의 필드 값이 아니라 별도의 엔티티이다. 따라서 좋아요, 댓글, 북마크 순으로 정렬해서 페이징 조회 시, **Pageable 객체를 통한 자동 페이징 처리가 불가**하다. Pageable 객체는 엔티티의 필드 값을 기준으로 정렬 및 페이징을 제공하기 때문이다.
     - 따라서 **좋아요/댓글/북마크 순 정렬 페이징 조회를 위한 메서드를 각각 생성**해야 한다.
-    - 다음은 좋아요 순 정렬 페이징 조회 메서드이다.
-![image](https://github.com/user-attachments/assets/d3b7c75c-5310-4c81-a5b6-ecd450a25f12)
-    - 위 메서드가 실행될 때 post와 likes 테이블을 조인하고, 조인 결과가 많은(좋아요 수가 많은) post 레코드를 선별한다. 이 과정에서 **조인 결과를 풀스캔**하는 문제가 발생한다.
+    - 다음은 좋아요 순 정렬 페이징 조회 메서드이다. 다음 메서드가 실행될 때 post와 likes 테이블을 조인하고, 조인 결과가 많은(좋아요 수가 많은) post 레코드를 선별한다. 이 과정에서 **조인 결과를 풀스캔**하는 문제가 발생한다.
+<p align="center"><img src="https://github.com/user-attachments/assets/d3b7c75c-5310-4c81-a5b6-ecd450a25f12" width="650" height="160"></p>
 
 ### 해결 방안
 
@@ -149,18 +148,19 @@
 
 - 빠른 카운팅을 위해 **Redis의 sorted set** 사용했다. 그리고 게시글이 조회될 때마다 Redis에 조회 수가 반영된다.
 
-![image](https://github.com/user-attachments/assets/de3c5dea-9c32-451b-aba5-62bfedef19ef)
+<p align="center"><img src="https://github.com/user-attachments/assets/de3c5dea-9c32-451b-aba5-62bfedef19ef" width="300" height="250"></p>
 
 - 게시글 조회에 대한 응답 시간 개선을 위해, 게시글 조회 시 조회 수를 증가시키는 부분을 `@Async`를 통해 **비동기**로 동작하도록 구현했다.
 
-![image](https://github.com/user-attachments/assets/b366a9eb-de83-4833-a096-3a3c1fa88e0e)
+<p align="center"><img src="https://github.com/user-attachments/assets/b366a9eb-de83-4833-a096-3a3c1fa88e0e" width="900" height="400"></p>
 
 ### 인기글 추출
 
 - **스케줄러**를 통해 한 시간마다 조회 수가 가장 많은 상위 10개의 게시글 ID를 Redis에서 조회한 후, 10개의 각 게시글에 대한 데이터를 RDB에서 조회한다.
 - 조회된 데이터들을 key-value 형태의 DTO로 구성하여 **Redis에 캐싱**해 둔다.
 
-![image](https://github.com/user-attachments/assets/6a612626-35cd-45c5-993d-f462b492482f)
+<p align="center"><img src="https://github.com/user-attachments/assets/0a9ca4f8-29ad-4f1f-bf2c-ec119d0735bd" width="750" height="270"></p>
+
 
 - 스케줄러를 통해 인기글 추출이 이뤄질 때 네트워크 문제로 인해 실패할 경우를 대비하여, 3번까지 **재시도**한다.
 
@@ -183,7 +183,7 @@
     2. 없으면, Auth Service로부터 사용자 정보를 받아온다. 
     3. 응답받은 데이터를 Local Cache에 캐싱해 둔다.
 
-![image](https://github.com/user-attachments/assets/02bf89b6-413c-403c-815f-8eeb09093a74)
+<p align="center"><img src="https://github.com/user-attachments/assets/02bf89b6-413c-403c-815f-8eeb09093a74" width="500" height="250"></p>
 
 ## 10. CircuitBreaker를 통한 장애 격리
 
