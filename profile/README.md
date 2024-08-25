@@ -1,7 +1,7 @@
 # 펀핏(Funfit) 프로젝트
 
 ## 0. 목차
-https://github.com/Funfit-Project/.github/edit/main/profile/README.md#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%8C%EA%B0%9C
+https://github.com/Funfit-Project#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%8C%EA%B0%9C
 
 
 ## 1. 프로젝트 소개
