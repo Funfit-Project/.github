@@ -1,10 +1,28 @@
 # 펀핏(Funfit) 프로젝트
 
 ## 0. 목차
-https://github.com/Funfit-Project#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%8C%EA%B0%9C
 
+[1. 프로젝트 개요 및 소개](https://github.com/Funfit-Project#2-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%88%A0)
 
-## 1. 프로젝트 소개
+[2. 사용 기술](https://github.com/Funfit-Project#2-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%88%A0)
+
+[3. Backend API Swagger Link](https://github.com/Funfit-Project#3-backend-api-swagger-link)
+
+[4. Architecture](https://github.com/Funfit-Project#4-architecture)
+
+[5. 제약 조건을 통한 예약 동시성 제어](https://github.com/Funfit-Project#5-%EC%A0%9C%EC%95%BD-%EC%A1%B0%EA%B1%B4%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%98%88%EC%95%BD-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4)
+
+[6. 반정규화 및 인덱스를 통한 게시글 페이징 조회 성능 개선](https://github.com/Funfit-Project#6-%EB%B0%98%EC%A0%95%EA%B7%9C%ED%99%94-%EB%B0%8F-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B2%8C%EC%8B%9C%EA%B8%80-%ED%8E%98%EC%9D%B4%EC%A7%95-%EC%A1%B0%ED%9A%8C-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0)
+
+[7. 비관적 락을 통한 좋아요 동시성 제어](https://github.com/Funfit-Project#7-%EB%B9%84%EA%B4%80%EC%A0%81-%EB%9D%BD%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%A2%8B%EC%95%84%EC%9A%94-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4)
+
+[8. Redis와 스케줄러를 통한 인기글 추출 기능](https://github.com/Funfit-Project#8-redis%EC%99%80-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%9D%B8%EA%B8%B0%EA%B8%80-%EC%B6%94%EC%B6%9C-%EA%B8%B0%EB%8A%A5)
+
+[9. 로컬 캐싱](https://github.com/Funfit-Project#9-%EB%A1%9C%EC%BB%AC-%EC%BA%90%EC%8B%B1)
+
+[10. CircuitBreaker를 통한 장애 격리](https://github.com/Funfit-Project#10-circuitbreaker%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%9E%A5%EC%95%A0-%EA%B2%A9%EB%A6%AC)
+
+## 1. 프로젝트 개요 및 소개
 
 펀핏은 운동인들을 위한 피트니스 플랫폼으로, 운동 관련 커뮤니티와 PT 수업 예약 및 관리 서비스를 제공합니다.
 
@@ -123,7 +141,7 @@ https://github.com/Funfit-Project#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%
 
 ### 관련 블로그 포스팅
 
-[좋아요 동시성 제어 과정](https://olsohee.tistory.com/113)
+- [좋아요 동시성 제어 과정](https://olsohee.tistory.com/113)
 
 ### 문제점
 
@@ -132,24 +150,33 @@ https://github.com/Funfit-Project#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%
     1. 사용자는 같은 게시글에 좋아요를 2개 이상 누를 수 없다.
     2. 여러 명의 사용자가 동시에 같은 게시글에 좋아요를 누를 경우 해당 게시글의 좋아요 수가 덮어 씌워지면 안 된다.
 - 기존 코드에서 두 경우를 테스트한 결과, 두 경우 모두 ****데드락이 발생했다.
-- 데드락의 원인은 MySQL이 **조회하는 레코드에 외래 키가 있을 때, 외래 키에 해당하는 테이블 레코드에 S락을 걸기 때문**이다. 즉, 게시글 테이블(post)과 좋아요 테이블(likes)을 조인하는 과정에서, 각 트랜잭션은 likes와 연관된 post 테이블의 레코드에 S락을 건디. 그리고 post의 likeCount 필드 값을 UPDATE하기 위해 배타 락을 걸어야 하는데, 상대 트랜잭션이 S락을 걸고 있기 때문에 대기하게 되면서 데드락 발생한다.
+- 데드락의 원인은 MySQL이 **조회하는 레코드에 외래 키가 있을 때, 외래 키에 해당하는 테이블 레코드에 S락을 걸기 때문**이다. 즉, 게시글 테이블(post)과 좋아요 테이블(likes)을 조인하는 과정에서, 각 트랜잭션은 likes와 연관된 post 테이블의 레코드에 S락을 건다. 그리고 post의 likeCount 필드 값을 UPDATE하기 위해 배타 락을 걸어야 하는데, 상대 트랜잭션이 S락을 걸고 있기 때문에 대기하게 되면서 데드락 발생한다.
 
 ### 해결 방안
 
 - 비관적 락을 적용하여 조회 시 SELECT FOR UPDATE 쿼리로 X락을 걸었다.
-
-### 결과
-
 - 쓰기 락을 걸기 때문에 데드락이 발생하지 않으며 동시성 제어에 성공한다.
 
 ## 8. Redis와 스케줄러를 통한 인기글 추출 기능
 
+### 요구사항
+
 - 한 시간 동안 조회 수가 많았던 게시글 10개가 특정 시간의 인기글이 된다. 따라서 인기글을 계산하기 위해 한 시간 동안 각 게시글의 조회 수를 카운팅해야 한다.
-- **인기글 카운팅**: 빠른 카운팅을 위해 **Redis의 sorted set** 사용했다. 그리고 게시글이 조회될 때마다 Redis에 조회 수가 반영된다.
+
+### 인기글 카운팅
+
+- 빠른 카운팅을 위해 **Redis의 sorted set** 사용했다. 그리고 게시글이 조회될 때마다 Redis에 조회 수가 반영된다.
 
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/711cf447-11bb-4a07-a594-8339c2304513/52fc6306-829b-4105-bde5-66b738fa00d6/Untitled.png)
 
-- **인기글 추출**: **스케줄러**를 통해 한 시간마다 조회 수가 가장 많은 상위 10개의 게시글 ID를 Redis에서 조회한 후, 해당 게시글들을 토대로 인기글 데이터를 생성하여 **Redis에 캐싱**해둔다.
+- 게시글 조회에 대한 응답 시간 개선을 위해, 게시글 조회 시 조회 수를 증가시키는 부분을 @Async를 통해 비동기로 동작하도록 구현했다.
+
+![스크린샷 2024-08-25 오후 6.30.16.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/711cf447-11bb-4a07-a594-8339c2304513/607aa117-8ce8-4fb0-b3ff-8f12ac4558c7/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-08-25_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_6.30.16.png)
+
+### 인기글 추출
+
+- **스케줄러**를 통해 한 시간마다 조회 수가 가장 많은 상위 10개의 게시글 ID를 Redis에서 조회한 후, 10개의 각 게시글에 대한 데이터를 RDB에서 조회한다.
+- 조회된 데이터들을 key-value 형태의 DTO로 구성하여 **Redis에 캐싱**해 둔다.
 
 ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/711cf447-11bb-4a07-a594-8339c2304513/93ace477-c11d-44d1-851a-e09141e18fba/image.png)
 
@@ -157,17 +184,26 @@ https://github.com/Funfit-Project#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%
 
 ## 9. 로컬 캐싱
 
+### 관련 블로그 포스팅
+
+- [Caffeine을 통한 로컬 캐싱](https://olsohee.tistory.com/227)
+
+### Remote Cache → Local Cache
+
 - 사용자 정보는 Auth Service에서 관리된다. 따라서 각 마이크로서비스는 사용자 정보가 필요할 때 Auth Service로부터 데이터를 받아와야 한다.
 - 기존에는 Auth Service로부터 데이터를 받아와서 **Redis에 캐싱**해뒀다. 그러나 각 마이크로서비스에서 사용자 정보는 자주 조회되는 데이터이고, 변경이 적으며, 데이터 크기가 크지 않다. 따라서 네트워크 통신이 이뤄지는 Redis보다 로컬 캐싱이 더 적합하다고 판단하여 **로컬 캐싱으로 변경**했다.
 - TTL 등 캐시 관리를 위한 기능을 제공하며 높은 성능으로 알려진 Caffeine을 통해 로컬 캐싱을 구현했다.
-- 사용자 정보 조회 흐름
+
+### 사용자 정보 조회 흐름
+
+- 로컬 캐싱을 통한 사용자 정보 조회 흐름은 다음과 같다.
     1. Local Cache에서 사용자 정보를 조회한다.
     2. 없으면, Auth Service로부터 사용자 정보를 받아온다. 
     3. 응답받은 데이터를 Local Cache에 캐싱해 둔다.
 
 ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/711cf447-11bb-4a07-a594-8339c2304513/451409d9-2c13-4812-b582-ed9c056e1723/image.png)
 
-## 10. CircuitBreaker를 통한 장애 격리
+## 10. CircuitBreaker를 통한 장애 격리!
 
 ### 관련 블로그 포스팅
 
@@ -176,7 +212,7 @@ https://github.com/Funfit-Project#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%
 ### 문제점
 
 - 각 마이크로서비스는 사용자 정보가 필요할 때, Auth Service로부터 데이터를 받아온다.
-- 이때 Auth Service 장애 시 Auth Service에게 데이터를 요청한 Pt, Community Service에게까지 장애가 전파되는 문제가 발생한다.
+- 이때 Auth Service 장애 시 Auth Service에게 데이터를 요청한 Pt, Community Service까지 장애가 전파되는 문제가 발생한다.
 
 ### 해결 방안
 
