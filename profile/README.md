@@ -2,6 +2,16 @@
 
 ## 0. 목차
 
+1. [**프로젝트 개요 및 소개**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94-%EB%B0%8F-%EC%86%8C%EA%B0%9C)
+2. [**사용 기술**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#2-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%88%A0)
+3. [**Architecture**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#3-architecture)
+4. [**제약 조건을 통한 예약 동시성 제어**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#4-%EC%A0%9C%EC%95%BD-%EC%A1%B0%EA%B1%B4%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%98%88%EC%95%BD-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4)
+5. [**반정규화 및 인덱스를 통한 게시글 페이징 조회 성능 개선**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#5-%EB%B0%98%EC%A0%95%EA%B7%9C%ED%99%94-%EB%B0%8F-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B2%8C%EC%8B%9C%EA%B8%80-%ED%8E%98%EC%9D%B4%EC%A7%95-%EC%A1%B0%ED%9A%8C-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0)
+6. [**비관적 락을 통한 좋아요 동시성 제어**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#6-%EB%B9%84%EA%B4%80%EC%A0%81-%EB%9D%BD%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%A2%8B%EC%95%84%EC%9A%94-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4)
+7. [**Redis와 스케줄러를 통한 인기글 추출 기능**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#7-redis%EC%99%80-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%9D%B8%EA%B8%B0%EA%B8%80-%EC%B6%94%EC%B6%9C-%EA%B8%B0%EB%8A%A5)
+8. [**로컬 캐싱**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#8-%EB%A1%9C%EC%BB%AC-%EC%BA%90%EC%8B%B1)
+9. [**CircuitBreaker를 통한 장애 격리**](https://github.com/Funfit-Project/.github/blob/main/profile/README.md#9-circuitbreaker%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%9E%A5%EC%95%A0-%EA%B2%A9%EB%A6%AC)
+
 ## 1. 프로젝트 개요 및 소개
 
 - 펀핏(Funfit)은 운동인들을 위한 피트니스 플랫폼으로, 운동 관련 커뮤니티와 PT 수업 예약 서비스를 제공합니다.
